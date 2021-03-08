@@ -1,39 +1,36 @@
-class Matriz{
-  int[][] matriz;
+import java.io.*;
+
+class Matriz implements Serializable{
+  double[][] matriz;
   int filas,columnas;
 
-  Matriz(int filas, int columnas,boolean inicializar){
-    this.matriz = new int[filas][columnas];
+  Matriz(int filas, int columnas){
+    this.matriz = new double[filas][columnas];
     this.filas = filas;
     this.columnas = columnas;
   }
 
-  static void inicializar(Matriz A, Matriz B, int nTam){
-    int contador = 0;
-    for(int i = 0; i < nTam; i++){
-      for(int j = 0; j < nTam; j++){
-        A.matriz[i][j]= contador;
-        B.matriz[i][j]= contador+16;
-        contador+=1;
-      }
-    }
-  }
-
   void imprimir(){
-    for(int i = 0; i < filas; i++){
-      for(int j = 0; j < columnas; j++){
-        System.out.print(matriz[i][j] + " ");
+    if(filas < 20){
+      for(int i = 0; i < filas; i++){
+        for(int j = 0; j < columnas; j++){
+          System.out.print(matriz[i][j] + " ");
+        }
+        System.out.println("");
       }
       System.out.println("");
     }
-    System.out.println("");
+    else{
+      System.out.println(matriz[0][0]);
+      System.out.println(matriz[filas-1][columnas-1]);
+    }
   }
 
 
   void transponer(){
     for (int i = 0; i < filas; i++) {
       for (int j = 0; j < i; j++) {
-        int x = matriz[i][j];
+        double x = matriz[i][j];
         matriz[i][j] = matriz[j][i];
         matriz[j][i] = x;
       }
@@ -41,7 +38,7 @@ class Matriz{
   }
   
   Matriz multiplicar(Matriz B){
-    Matriz C = new Matriz(filas, B.columnas,false);
+    Matriz C = new Matriz(filas, B.columnas);
     for (int i = 0; i < filas; i++)
       for (int j = 0; j < B.columnas; j++)
         for (int k = 0; k < B.filas; k++)
@@ -50,7 +47,7 @@ class Matriz{
   }
 
   Matriz multiplicarConTranspuesta(Matriz B){
-    Matriz C = new Matriz(filas, B.filas,false);
+    Matriz C = new Matriz(filas, B.filas);
     for (int i = 0; i < filas; i++)
       for (int j = 0; j < B.filas; j++)
         for (int k = 0; k < B.columnas; k++)
@@ -61,7 +58,7 @@ class Matriz{
   Matriz segmentar(int inicioColumna, int finalColumna, int inicioFila, int finalFila){
     int tamCol = finalColumna-inicioColumna;
     int tamFil = finalFila-inicioFila;
-    Matriz C = new Matriz(tamFil, tamCol, false);
+    Matriz C = new Matriz(tamFil, tamCol);
     for (int i = inicioFila, k = 0; i < finalFila; i++, k++) {
       for (int j = inicioColumna, h = 0; j < finalColumna; j++, h++) {
         C.matriz[k][h] = matriz[i][j];
@@ -70,23 +67,39 @@ class Matriz{
     return C;
   }
 
+  static Matriz unirMatrices(Matriz m1,Matriz m2,Matriz m3,Matriz m4){
+    int numFilas = m1.filas + m2.filas;
+    int numColumnas = m1.columnas + m3.columnas;
+    Matriz resultado = new Matriz(numFilas, numColumnas);
+    for(int i = 0; i < m1.filas ; i++){
+      for(int j = 0; j < m1.columnas; j++){
+        resultado.matriz[i][j] = m1.matriz[i][j];
+      }
+    }
+    for(int i = 0, h = 0; i < m1.filas ; i++, h++){
+      for(int j = 0, k = m1.columnas; j < m1.columnas; j++, k++){
+        resultado.matriz[h][k] = m2.matriz[i][j];
+      }
+    }
+    for(int i = 0, h = m1.filas; i < m1.filas ; i++, h++){
+      for(int j = 0, k = 0; j < m1.columnas; j++, k++){
+        resultado.matriz[h][k] = m3.matriz[i][j];
+      }
+    }
+    for(int i = 0, h = m1.filas; i < m1.filas ; i++, h++){
+      for(int j = 0, k = m1.columnas; j < m1.columnas; j++, k++){
+        resultado.matriz[h][k] = m4.matriz[i][j];
+      }
+    }
+    return resultado;
+  }
 
-  public static void main(String[] args){
-    int filas = 4;
-    int columnas = filas;
-    Matriz m1 = new Matriz(filas,columnas, true);
-    Matriz m2 = new Matriz(filas,columnas, true);
-    inicializar(m1, m2, filas);
-    m2.transponer();
-
-    Matriz segA1 = m1.segmentar(0,columnas, 0, filas/2);
-    Matriz segA2 = m1.segmentar(0,columnas, filas/2, filas);
-    Matriz segB1 = m2.segmentar(0,columnas, 0, filas/2);
-    Matriz segB2 = m2.segmentar(0,columnas, filas/2, filas);
-
-    segA1.multiplicarConTranspuesta(segB1).imprimir();
-    segA1.multiplicarConTranspuesta(segB2).imprimir();
-    segA2.multiplicarConTranspuesta(segB1).imprimir();
-    segA2.multiplicarConTranspuesta(segB2).imprimir();
+  static void inicializar(Matriz A, Matriz B, int nTam){
+    for(int i = 0; i < nTam; i++){
+      for(int j = 0; j < nTam; j++){
+        A.matriz[i][j]= 3*i+2*j;
+        B.matriz[i][j]= 3*i-2*j;
+      }
+    }
   }
 }
