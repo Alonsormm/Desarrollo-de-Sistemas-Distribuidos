@@ -3,27 +3,13 @@ import java.io.*;
 class Matriz implements Serializable{
   double[][] matriz;
   int filas,columnas;
+  int indice;
 
-  Matriz(int filas, int columnas){
+  Matriz(int filas, int columnas, int indice){
     this.matriz = new double[filas][columnas];
     this.filas = filas;
     this.columnas = columnas;
-  }
-
-  void imprimir(){
-    if(filas < 20){
-      for(int i = 0; i < filas; i++){
-        for(int j = 0; j < columnas; j++){
-          System.out.print(matriz[i][j] + " ");
-        }
-        System.out.println("");
-      }
-      System.out.println("");
-    }
-    else{
-      System.out.println(matriz[0][0]);
-      System.out.println(matriz[filas-1][columnas-1]);
-    }
+    this.indice = indice;
   }
 
 
@@ -38,7 +24,7 @@ class Matriz implements Serializable{
   }
   
   Matriz multiplicar(Matriz B){
-    Matriz C = new Matriz(filas, B.columnas);
+    Matriz C = new Matriz(filas, B.columnas,0);
     for (int i = 0; i < filas; i++)
       for (int j = 0; j < B.columnas; j++)
         for (int k = 0; k < B.filas; k++)
@@ -47,7 +33,7 @@ class Matriz implements Serializable{
   }
 
   Matriz multiplicarConTranspuesta(Matriz B){
-    Matriz C = new Matriz(filas, B.filas);
+    Matriz C = new Matriz(filas, B.filas, 0);
     for (int i = 0; i < filas; i++)
       for (int j = 0; j < B.filas; j++)
         for (int k = 0; k < B.columnas; k++)
@@ -58,7 +44,7 @@ class Matriz implements Serializable{
   Matriz segmentar(int inicioColumna, int finalColumna, int inicioFila, int finalFila){
     int tamCol = finalColumna-inicioColumna;
     int tamFil = finalFila-inicioFila;
-    Matriz C = new Matriz(tamFil, tamCol);
+    Matriz C = new Matriz(tamFil, tamCol, 0);
     for (int i = inicioFila, k = 0; i < finalFila; i++, k++) {
       for (int j = inicioColumna, h = 0; j < finalColumna; j++, h++) {
         C.matriz[k][h] = matriz[i][j];
@@ -70,7 +56,7 @@ class Matriz implements Serializable{
   static Matriz unirMatrices(Matriz m1,Matriz m2,Matriz m3,Matriz m4){
     int numFilas = m1.filas + m2.filas;
     int numColumnas = m1.columnas + m3.columnas;
-    Matriz resultado = new Matriz(numFilas, numColumnas);
+    Matriz resultado = new Matriz(numFilas, numColumnas, 0);
     for(int i = 0; i < m1.filas ; i++){
       for(int j = 0; j < m1.columnas; j++){
         resultado.matriz[i][j] = m1.matriz[i][j];
@@ -94,12 +80,11 @@ class Matriz implements Serializable{
     return resultado;
   }
 
-  static void inicializar(Matriz A, Matriz B, int nTam){
-    for(int i = 0; i < nTam; i++){
-      for(int j = 0; j < nTam; j++){
-        A.matriz[i][j]= 3*i+2*j;
-        B.matriz[i][j]= 3*i-2*j;
-      }
-    }
+  double checksum(){
+    double suma = 0;
+    for(int i = 0; i < filas; i++)
+      for(int j = 0; j < columnas; j++)
+        suma+=matriz[i][j];
+    return suma;
   }
 }
