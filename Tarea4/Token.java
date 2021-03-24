@@ -53,10 +53,7 @@ class Token
     salida = new DataOutputStream(conexion.getOutputStream());
     w.join();
     while(true) {
-      if(nodo == 0 && contador == 1000){
-        break;
-      }
-      else if (nodo == 0){
+      if (nodo == 0){
         if(primera_vez){
           primera_vez = false;
           token = 1;
@@ -71,6 +68,10 @@ class Token
         token = entrada.readInt();
         contador += 1;
         System.out.println("Nodo: " + nodo + " Contador: " + contador + " Token: " + token);
+      }
+      salida.writeInt(token);
+      if(contador == 1000){
+        break;
       }
     }
   }
