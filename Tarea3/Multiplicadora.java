@@ -72,6 +72,7 @@ class Multiplicadora {
     int filas = n;
     int columnas = filas;
     // Se crean dos matrices a ser multiplicadas
+    System.out.println("Creando matrices con tamaño" + n + "x" + n);
     Matriz m1 = new Matriz(filas,columnas,0);
     Matriz m2 = new Matriz(filas,columnas,0);
     inicializar(m1, m2, filas);
