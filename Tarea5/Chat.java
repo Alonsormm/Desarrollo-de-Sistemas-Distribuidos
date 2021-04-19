@@ -1,0 +1,49 @@
+import java.io.*;
+import java.net.*;
+import java.util.Scanner;
+
+class Chat {
+  static class Worker extends Thread {
+    public void run() {
+      // En un ciclo infinito se recibirán los mensajes enviados al grupo
+      // 230.0.0.0 a través del puerto 50000 y se desplegarán en la pantalla.
+      while(true){
+        try {
+          byte[] mensaje_recibido = recibe_mensaje_multicast(100);
+          System.out.println("\n" + new String(mensaje_recibido, "UTF-8"));
+        } catch (Exception e) {
+        }
+      }
+    }
+  }
+
+  static byte[] recibe_mensaje_multicast(int longitud_mensaje) throws IOException {
+    MulticastSocket socket = new MulticastSocket(50000);
+    InetAddress grupo = InetAddress.getByName("230.0.0.0");
+    socket.joinGroup(grupo);  
+    byte[] buffer = new byte[longitud_mensaje];
+    DatagramPacket paquete = new DatagramPacket(buffer, buffer.length);
+    socket.receive(paquete);
+    socket.close();
+    return paquete.getData();
+  }
+
+  static void envia_mensaje_multicast(byte[] buffer, String ip, int puerto) throws IOException {
+    DatagramSocket socket = new DatagramSocket();
+    socket.send(new DatagramPacket(buffer, buffer.length, InetAddress.getByName(ip), puerto));
+    socket.close();
+  }
+
+  public static void main(String[] args) throws Exception {
+    Worker w = new Worker();
+    w.start();
+    String nombre = args[0];
+    Scanner in = new Scanner(System.in);
+    while(true) {
+      System.out.print("Ingrese el mensaje a enviar: ");
+      String s = in.nextLine();
+      s = nombre + ": " + s;
+      envia_mensaje_multicast(s.getBytes(), "230.0.0.0", 50000);
+    }
+  }
+}
