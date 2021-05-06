@@ -11,6 +11,7 @@ public class ClaseRMI extends UnicastRemoteObject implements InterfaceRMI
 
   
   public float[][] separa_matriz(float [][] A, int inicio) throws RemoteException { 
+    System.out.println("Separando matrices");
     int N = A[0].length;
     float[][] M = new float[N/2][N];
     for (int i = 0; i < N/2; i++)
@@ -20,6 +21,7 @@ public class ClaseRMI extends UnicastRemoteObject implements InterfaceRMI
   }
 
   public float[][] multiplica_matrices(float [][] A, float [][] B) throws RemoteException {
+    System.out.println("multiplicando matrices");
     int N = A[0].length;
     float[][] C = new float[N/2][N/2];
     for (int i = 0; i < N/2; i++)
@@ -30,6 +32,7 @@ public class ClaseRMI extends UnicastRemoteObject implements InterfaceRMI
   }
 
   public double checksum(float [][] matriz) throws RemoteException {
+    System.out.println("Haciendo checksum");
     int filas = matriz.length;
     int columnas = matriz[0].length;
     double sum = 0;
@@ -41,6 +44,7 @@ public class ClaseRMI extends UnicastRemoteObject implements InterfaceRMI
   }
 
   public float[][] acomoda_matriz(float[][] C,float[][] A,int renglon,int columna, int N) throws RemoteException {
+    System.out.println("Acomandando matrices");
     for (int i = 0; i < N/2; i++)
       for (int j = 0; j < N/2; j++)
         C[i + renglon][j + columna] = A[i][j];
