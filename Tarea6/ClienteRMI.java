@@ -36,16 +36,16 @@ public class ClienteRMI
 
   public static void main(String args[]) throws Exception
   {
-    if (args.length != 2) {
+    if (args.length != 3) {
       System.err.println("Uso:");
-      System.err.println("java ClientRMI <ip_nodo_1> <ip_nodo_2>");
+      System.err.println("java ClientRMI <ip_nodo_1> <ip_nodo_2> <Tam_Matriz(N)>");
       System.exit(0);
     }
     String url_nodo1 = "//" + args[0] + "/matrices";
     String url_nodo2 = "//" + args[1] + "/matrices";
     InterfaceRMI nodo_1 = (InterfaceRMI)Naming.lookup(url_nodo1);
     InterfaceRMI nodo_2 = (InterfaceRMI)Naming.lookup(url_nodo2);
-    int N = 8;
+    int N = Integer.parseInt(args[2]);
     float[][] A = new float[N][N];
     float[][] B = new float[N][N];
     inicializar_matrices(A,B,N);
