@@ -40,9 +40,10 @@ public class ClaseRMI extends UnicastRemoteObject implements InterfaceRMI
     return sum;
   }
 
-  public void acomoda_matriz(float[][] C,float[][] A,int renglon,int columna, int N) throws RemoteException {
+  public float[][] acomoda_matriz(float[][] C,float[][] A,int renglon,int columna, int N) throws RemoteException {
     for (int i = 0; i < N/2; i++)
       for (int j = 0; j < N/2; j++)
         C[i + renglon][j + columna] = A[i][j];
+    return C;
   }
 }

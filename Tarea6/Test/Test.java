@@ -56,6 +56,7 @@ public class Test {
     for (int i = 0; i < N/2; i++)
       for (int j = 0; j < N/2; j++)
         C[i + renglon][j + columna] = A[i][j];
+    return C;
   }
 
   void inicializar_matrices(float [][] A, float [][] B, int N){

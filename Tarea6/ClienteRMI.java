@@ -43,20 +43,26 @@ public class ClienteRMI
     }
     String url_nodo1 = "//" + args[0] + "/matrices";
     String url_nodo2 = "//" + args[1] + "/matrices";
-
     InterfaceRMI nodo_1 = (InterfaceRMI)Naming.lookup(url_nodo1);
     InterfaceRMI nodo_2 = (InterfaceRMI)Naming.lookup(url_nodo2);
-
     int N = 8;
     float[][] A = new float[N][N];
     float[][] B = new float[N][N];
     inicializar_matrices(A,B,N);
+
+    if(N <= 8) {
+      System.out.println("Matriz A: ");
+      imprimir_matriz(A);
+      System.out.println("Matriz B: ");
+      imprimir_matriz(B);
+    }
+
     float[][] B_transpuesta = transpuesta(B);
     
     float[][] A1 = nodo_1.separa_matriz(A, 0);
     float[][] A2 = nodo_1.separa_matriz(A, N/2);
     float[][] B1 = nodo_2.separa_matriz(B, 0);
-    float[][] B2 = nodo_2.separa_matriz(A, N/2);
+    float[][] B2 = nodo_2.separa_matriz(B, N/2);
 
     float[][] C1 = nodo_1.multiplica_matrices(A1,B1);
     float[][] C2 = nodo_1.multiplica_matrices(A1,B2);
@@ -64,11 +70,15 @@ public class ClienteRMI
     float[][] C4 = nodo_2.multiplica_matrices(A2,B2);
 
     float[][] C = new float[N][N];
-    nodo_1.acomoda_matriz(C,C1,0,0, N);
-    nodo_1.acomoda_matriz(C,C2,0,N/2, N);
-    nodo_2.acomoda_matriz(C,C3,N/2,0, N);
-    nodo_2.acomoda_matriz(C,C4,N/2,N/2, N);
+    C = nodo_1.acomoda_matriz(C,C1,0,0, N);
+    C = nodo_1.acomoda_matriz(C,C2,0,N/2, N);
+    C = nodo_2.acomoda_matriz(C,C3,N/2,0, N);
+    C = nodo_2.acomoda_matriz(C,C4,N/2,N/2, N);
 
-    System.out.println(nodo_1.checksum(C));
+    if(N <= 8) {
+      System.out.println("Resultado AxC: ");
+      imprimir_matriz(C);
+    }
+    System.out.println("Checksum: " + nodo_1.checksum(C));
   }
 }
