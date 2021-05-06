@@ -41,8 +41,8 @@ public class ClienteRMI
       System.err.println("java ClientRMI <ip_nodo_1> <ip_nodo_2>");
       System.exit(0);
     }
-    String url_nodo1 = "rmi://" + args[0] + "/matrices";
-    String url_nodo2 = "rmi://"+ args[1] + "/matrices";
+    String url_nodo1 = "//" + args[0] + "/matrices";
+    String url_nodo2 = "//" + args[1] + "/matrices";
 
     InterfaceRMI nodo_1 = (InterfaceRMI)Naming.lookup(url_nodo1);
     InterfaceRMI nodo_2 = (InterfaceRMI)Naming.lookup(url_nodo2);

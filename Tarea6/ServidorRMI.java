@@ -4,7 +4,7 @@ public class ServidorRMI
 {
   public static void main(String[] args) throws Exception
   {
-    String url = "rmi://localhost/matrices";
+    String url = "//localhost/matrices";
     ClaseRMI obj = new ClaseRMI();
 
     // registra la instancia en el rmiregistry
