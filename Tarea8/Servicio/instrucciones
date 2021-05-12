@@ -1,0 +1,15 @@
+Compilar y desplegar servicio
+
+javac -cp $CATALINA_HOME/lib/javax.ws.rs-api-2.0.1.jar:$CATALINA_HOME/lib/gson-2.3.1.jar:. negocio/*.java                                                                                   (base) ^(*main+23) 18:12:56
+                      rm WEB-INF/classes/negocio/*
+                      cp negocio/*.class WEB-INF/classes/negocio/.
+                      jar cvf Servicio.war WEB-INF META-INF
+                      rm $CATALINA_HOME/webapps/Servicio.war
+                      rm -r $CATALINA_HOME/webapps/Servicio/
+                      cp ./Servicio.war $CATALINA_HOME/webapps/
+
+
+Compilar y ejectuar cliente
+javac -cp $CATALINA_HOME/lib/javax.ws.rs-api-2.0.1.jar:$CATALINA_HOME/lib/gson-2.3.1.jar:. *.java
+
+java -cp $CATALINA_HOME/lib/javax.ws.rs-api-2.0.1.jar:$CATALINA_HOME/lib/gson-2.3.1.jar:. Menu http://localhost:8080/Servicio/rest/ws
