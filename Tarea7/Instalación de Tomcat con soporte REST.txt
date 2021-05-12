@@ -90,7 +90,7 @@ Crear un usuario en MySQL
 mysql -u root -p
 2. Crea el usuario "hugo":
 
-create user hugo@localhost identified by 'contraseña-del-usuario-hugo';
+create user hugo@localhost identified by 'Alonsormm_20';
 3. Otorgar todos los permisos al usuario "hugo" sobre la base de datos "servicio_web":
 
 grant all on servicio_web.* to hugo@localhost;
